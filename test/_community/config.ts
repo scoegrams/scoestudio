@@ -6,6 +6,7 @@ import { buildConfigWithDefaults } from '../buildConfigWithDefaults.js'
 import { devUser } from '../credentials.js'
 import { MediaCollection } from './collections/Media/index.js'
 import { PostsCollection, postsSlug } from './collections/Posts/index.js'
+import { ProjectsCollection, projectsSlug } from './collections/Projects/index.js'
 import { MenuGlobal } from './globals/Menu/index.js'
 
 const filename = fileURLToPath(import.meta.url)
@@ -13,7 +14,7 @@ const dirname = path.dirname(filename)
 
 export default buildConfigWithDefaults({
   // ...extend config here
-  collections: [PostsCollection, MediaCollection],
+  collections: [PostsCollection, MediaCollection, ProjectsCollection],
   admin: {
     importMap: {
       baseDir: path.resolve(dirname),
@@ -39,6 +40,17 @@ export default buildConfigWithDefaults({
         title: 'example post',
       },
     })
+
+    // Example project creation - uncomment after media is uploaded
+    // await payload.create({
+    //   collection: projectsSlug,
+    //   data: {
+    //     title: 'Example Project',
+    //     category: 'murals',
+    //     featuredImage: '<media-id-here>',
+    //     _status: 'published',
+    //   },
+    // })
   },
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),

@@ -32,15 +32,16 @@ const config = withBundleAnalyzer(
         // @todo remove in 4.0 - will behave like this by default in 4.0
         PAYLOAD_DO_NOT_SANITIZE_LOCALIZED_PROPERTY: 'true',
       },
-      async redirects() {
-        return [
-          {
-            destination: '/admin',
-            permanent: false,
-            source: '/',
-          },
-        ]
-      },
+      // Removed redirect - frontend is now at root
+      // async redirects() {
+      //   return [
+      //     {
+      //       destination: '/admin',
+      //       permanent: false,
+      //       source: '/',
+      //     },
+      //   ]
+      // },
       images: {
         domains: ['localhost'],
       },

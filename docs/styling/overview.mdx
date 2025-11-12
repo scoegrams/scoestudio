@@ -1,0 +1,315 @@
+# Styling Guide
+
+This guide explains how to style your Payload CMS frontend using Tailwind CSS.
+
+## Overview
+
+The frontend uses [Tailwind CSS](https://tailwindcss.com/) for styling. Tailwind is a utility-first CSS framework that allows you to build custom designs directly in your markup.
+
+## Configuration
+
+Tailwind CSS is configured in the root directory:
+
+- **Config file**: `tailwind.config.mjs`
+- **PostCSS config**: `postcss.config.js`
+- **Global styles**: `app/(app)/globals.css`
+
+## Basic Usage
+
+### Utility Classes
+
+Tailwind provides utility classes for common styling needs:
+
+```tsx
+// Spacing
+<div className="p-8">Padding on all sides</div>
+<div className="m-4">Margin on all sides</div>
+<div className="px-4 py-2">Horizontal padding, vertical padding</div>
+
+// Colors
+<h1 className="text-blue-600">Blue heading</h1>
+<p className="text-gray-600">Gray text</p>
+<div className="bg-blue-50">Light blue background</div>
+
+// Typography
+<h1 className="text-3xl font-bold">Large bold heading</h1>
+<p className="text-base font-normal">Normal text</p>
+
+// Layout
+<div className="flex gap-4">Flexbox with gap</div>
+<div className="grid grid-cols-3 gap-8">3-column grid</div>
+<div className="max-w-7xl mx-auto">Centered container</div>
+```
+
+### Common Patterns
+
+#### Container with Max Width
+
+```tsx
+<main className="p-8 max-w-7xl mx-auto">{/* Content */}</main>
+```
+
+#### Responsive Grid
+
+```tsx
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+  {/* Grid items */}
+</div>
+```
+
+#### Flex Navigation
+
+```tsx
+<nav className="flex gap-8 justify-center flex-wrap">
+  <Link href="/">Home</Link>
+  <Link href="/about">About</Link>
+</nav>
+```
+
+#### Hover States
+
+```tsx
+<Link
+  href="/projects"
+  className="text-blue-700 hover:text-blue-900 transition-colors"
+>
+  Projects
+</Link>
+```
+
+## Color Palette
+
+Tailwind includes a comprehensive color palette. Common colors:
+
+- **Gray**: `gray-50` (lightest) to `gray-900` (darkest)
+- **Blue**: `blue-50` to `blue-900`
+- **Red**: `red-50` to `red-900`
+- **Green**: `green-50` to `green-900`
+- And many more...
+
+### Usage Examples
+
+```tsx
+// Text colors
+<p className="text-gray-600">Gray text</p>
+<h1 className="text-blue-600">Blue heading</p>
+
+// Background colors
+<div className="bg-white">White background</div>
+<div className="bg-gray-100">Light gray background</div>
+
+// Border colors
+<div className="border border-gray-200">Gray border</div>
+```
+
+## Spacing Scale
+
+Tailwind uses a spacing scale where each number represents `0.25rem` (4px):
+
+- `p-1` = 0.25rem (4px)
+- `p-2` = 0.5rem (8px)
+- `p-4` = 1rem (16px)
+- `p-8` = 2rem (32px)
+- `p-16` = 4rem (64px)
+
+### Directional Spacing
+
+```tsx
+// Padding
+<div className="p-4">All sides</div>
+<div className="px-4">Horizontal (left/right)</div>
+<div className="py-4">Vertical (top/bottom)</div>
+<div className="pt-4">Top only</div>
+<div className="pr-4">Right only</div>
+<div className="pb-4">Bottom only</div>
+<div className="pl-4">Left only</div>
+
+// Margin (same pattern with m- instead of p-)
+<div className="m-4">All sides</div>
+<div className="mx-auto">Horizontal auto (centering)</div>
+```
+
+## Typography
+
+### Font Sizes
+
+```tsx
+<p className="text-xs">Extra small</p>
+<p className="text-sm">Small</p>
+<p className="text-base">Base (default)</p>
+<p className="text-lg">Large</p>
+<p className="text-xl">Extra large</p>
+<p className="text-2xl">2x large</p>
+<p className="text-3xl">3x large</p>
+<p className="text-4xl">4x large</p>
+```
+
+### Font Weights
+
+```tsx
+<p className="font-thin">Thin (100)</p>
+<p className="font-light">Light (300)</p>
+<p className="font-normal">Normal (400)</p>
+<p className="font-medium">Medium (500)</p>
+<p className="font-semibold">Semibold (600)</p>
+<p className="font-bold">Bold (700)</p>
+```
+
+### Text Alignment
+
+```tsx
+<p className="text-left">Left aligned</p>
+<p className="text-center">Center aligned</p>
+<p className="text-right">Right aligned</p>
+```
+
+## Layout
+
+### Flexbox
+
+```tsx
+// Basic flex
+<div className="flex">
+  <div>Item 1</div>
+  <div>Item 2</div>
+</div>
+
+// With gap
+<div className="flex gap-4">
+  <div>Item 1</div>
+  <div>Item 2</div>
+</div>
+
+// Justify content
+<div className="flex justify-start">Start</div>
+<div className="flex justify-center">Center</div>
+<div className="flex justify-end">End</div>
+<div className="flex justify-between">Space between</div>
+
+// Align items
+<div className="flex items-start">Top</div>
+<div className="flex items-center">Center</div>
+<div className="flex items-end">Bottom</div>
+
+// Wrap
+<div className="flex flex-wrap">Wrapping items</div>
+```
+
+### Grid
+
+```tsx
+// Basic grid
+<div className="grid grid-cols-3 gap-4">
+  <div>Item 1</div>
+  <div>Item 2</div>
+  <div>Item 3</div>
+</div>
+
+// Responsive grid
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+  {/* Responsive columns */}
+</div>
+
+// Auto-fill grid (like masonry)
+<div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-8">
+  {/* Auto-sizing items */}
+</div>
+```
+
+## Responsive Design
+
+Tailwind uses mobile-first breakpoints:
+
+- `sm`: 640px
+- `md`: 768px
+- `lg`: 1024px
+- `xl`: 1280px
+- `2xl`: 1536px
+
+### Usage
+
+```tsx
+// Mobile-first: base styles apply to mobile, prefixed styles apply at breakpoint and up
+<div className="text-sm md:text-base lg:text-lg">
+  Responsive text size
+</div>
+
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+  Responsive grid
+</div>
+```
+
+## Common Components
+
+### Buttons
+
+```tsx
+<button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+  Click me
+</button>
+```
+
+### Cards
+
+```tsx
+<article className="p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
+  <h2 className="text-xl font-semibold mb-2">Card Title</h2>
+  <p className="text-gray-600">Card content</p>
+</article>
+```
+
+### Links
+
+```tsx
+<Link href="/projects" className="text-blue-600 hover:text-blue-800 underline">
+  View Projects
+</Link>
+```
+
+## Customization
+
+### Extending the Theme
+
+You can extend Tailwind's default theme in `tailwind.config.mjs`:
+
+```javascript
+export default {
+  theme: {
+    extend: {
+      colors: {
+        'brand-blue': '#1e40af',
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+      },
+    },
+  },
+}
+```
+
+### Custom CSS
+
+For styles that don't fit utility classes, add custom CSS to `app/(app)/globals.css`:
+
+```css
+@layer components {
+  .custom-button {
+    @apply px-4 py-2 bg-blue-600 text-white rounded;
+    /* Additional custom styles */
+  }
+}
+```
+
+## Best Practices
+
+1. **Use utility classes first**: Prefer Tailwind utilities over custom CSS
+2. **Keep it readable**: Don't create extremely long className strings
+3. **Use responsive prefixes**: Design mobile-first, then enhance for larger screens
+4. **Extract components**: For repeated patterns, create React components
+5. **Use semantic HTML**: Combine Tailwind with proper HTML structure
+
+## Resources
+
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [Tailwind CSS Cheat Sheet](https://nerdcave.com/tailwind-cheat-sheet)
+- [Tailwind UI Components](https://tailwindui.com/components)
