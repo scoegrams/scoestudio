@@ -48,7 +48,7 @@ export default async function HomePage({
   })
 
   return (
-    <main className="p-8 max-w-[1600px] mx-auto min-h-screen pt-6">
+    <main className="p-8 max-w-[1600px] mx-auto min-h-screen">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {projects.docs.map((project, index) => {
           const featuredImage =

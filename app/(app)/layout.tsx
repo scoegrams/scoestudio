@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           style={{ marginLeft: 'var(--sidebar-width, 16rem)' }}
         >
           <TopBar />
-          <div className="flex-1">{children}</div>
+          <div className="flex-1 pt-4">{children}</div>
           <Footer />
         </div>
       </body>

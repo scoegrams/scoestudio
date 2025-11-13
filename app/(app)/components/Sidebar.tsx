@@ -1,7 +1,9 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 
 const categoryLabels: Record<string, string> = {
   murals: 'Murals',
@@ -22,28 +24,33 @@ const serviceLabels: Record<string, string> = {
 }
 
 export function Sidebar() {
-  // Load initial state from localStorage, default to expanded
-  const [isCollapsed, setIsCollapsed] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('sidebar-collapsed')
-      return saved === 'true'
+  const router = useRouter()
+  // Start with false (expanded) to match server-side render, then update on mount
+  const [isCollapsed, setIsCollapsed] = useState(false)
+  const [mounted, setMounted] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+
+  // Load state from localStorage after mount
+  useEffect(() => {
+    setMounted(true)
+    const saved = localStorage.getItem('sidebar-collapsed')
+    if (saved === 'true') {
+      setIsCollapsed(true)
     }
-    return false
-  })
+  }, [])
 
   // Update CSS variable when collapsed state changes
   useEffect(() => {
-    document.documentElement.style.setProperty('--sidebar-width', isCollapsed ? '3rem' : '16rem')
-    // Save state to localStorage
-    if (typeof window !== 'undefined') {
+    if (mounted) {
+      document.documentElement.style.setProperty('--sidebar-width', isCollapsed ? '4rem' : '16rem')
       localStorage.setItem('sidebar-collapsed', String(isCollapsed))
     }
-  }, [isCollapsed])
+  }, [isCollapsed, mounted])
 
   return (
     <aside
       className={`fixed left-0 top-0 h-full bg-white border-r border-gray-200 transition-all duration-300 z-50 group ${
-        isCollapsed ? 'w-12 hover:w-16' : 'w-64'
+        isCollapsed ? 'w-16 hover:w-20' : 'w-64'
       }`}
     >
       {/* Collapse Toggle Button - Always visible, minimal when collapsed */}
@@ -65,47 +72,56 @@ export function Sidebar() {
         </svg>
       </button>
 
-      {/* Vertical Text when Collapsed */}
+      {/* Logo when Collapsed - using min version */}
       {isCollapsed && (
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2">
-          <Link
-            href="/"
-            className="flex flex-col items-center text-xs font-medium text-gray-900 hover:text-gray-600 transition-colors leading-tight"
-          >
-            {'Roscoe Studio'.split('').map((letter, index) => (
-              <span key={index} className="block">
-                {letter === ' ' ? '\u00A0' : letter}
-              </span>
-            ))}
+        <div className="absolute top-4 left-1/2 -translate-x-1/2">
+          <Link href="/" className="flex flex-col items-center hover:opacity-80 transition-opacity">
+            <Image
+              src="/roscoestudio-min.png"
+              alt="Roscoe Studio"
+              width={35}
+              height={88}
+              className="object-contain"
+            />
+          </Link>
+        </div>
+      )}
+
+      {/* Logo at top when expanded */}
+      {!isCollapsed && (
+        <div className="absolute top-4 left-0 right-0 px-6 pb-6">
+          <Link href="/" className="flex justify-center hover:opacity-80 transition-opacity">
+            <Image
+              src="/package.png"
+              alt="Roscoe Studio"
+              width={140}
+              height={40}
+              className="object-contain"
+              priority
+            />
           </Link>
         </div>
       )}
 
       {/* Sidebar Content */}
       <div
-        className={`h-full pt-16 transition-opacity duration-300 ${
+        className={`h-full pt-32 transition-opacity duration-300 ${
           isCollapsed ? 'opacity-0 pointer-events-none overflow-hidden' : 'opacity-100'
         }`}
       >
         <nav className="p-6 space-y-6">
           <div>
-            <Link
-              href="/"
-              className="block text-lg font-medium text-gray-900 hover:text-gray-600 transition-colors mb-4"
-            >
-              Roscoe Studio
-            </Link>
             <p className="text-sm text-gray-600 leading-relaxed">
               A multi-disciplinary practice producing work across murals, digital design, sports
               artwork, and applied craft.
             </p>
           </div>
 
-          <div className="border-t border-gray-200 pt-6">
+          <div className="border-t border-gray-200 pt-6 group/projects">
             <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">
-              Categories
+              Projects
             </h2>
-            <ul className="space-y-2">
+            <ul className="space-y-2 opacity-0 group-hover/projects:opacity-100 transition-opacity duration-200">
               <li>
                 <Link
                   href="/"
@@ -127,11 +143,11 @@ export function Sidebar() {
             </ul>
           </div>
 
-          <div className="border-t border-gray-200 pt-6">
+          <div className="border-t border-gray-200 pt-6 group/services">
             <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">
               Services
             </h2>
-            <ul className="space-y-2">
+            <ul className="space-y-2 opacity-0 group-hover/services:opacity-100 transition-opacity duration-200">
               {Object.entries(serviceLabels).map(([key, label]) => (
                 <li key={key}>
                   <Link
@@ -145,7 +161,25 @@ export function Sidebar() {
             </ul>
           </div>
 
-          <div className="border-t border-gray-200 pt-6">
+          <div className="border-t border-gray-200 pt-6 space-y-4">
+            <div>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  // TODO: Implement search functionality
+                  console.log('Search:', searchQuery)
+                }}
+                className="w-full"
+              >
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full text-xs px-3 py-2 border border-gray-300 rounded-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
+                />
+              </form>
+            </div>
             <Link
               href="/admin"
               className="block text-sm text-gray-500 hover:text-gray-700 transition-colors"

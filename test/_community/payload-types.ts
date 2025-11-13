@@ -211,9 +211,24 @@ export interface Project {
    */
   title: string;
   /**
-   * Service category for filtering
+   * Project category for filtering
    */
   category: 'murals' | 'digital' | 'sports' | 'applied';
+  /**
+   * Services provided for this project
+   */
+  services?:
+    | (
+        | 'sites'
+        | 'branding'
+        | 'illustration'
+        | 'print-design'
+        | 'packaging'
+        | 'environmental'
+        | 'motion'
+        | 'photography'
+      )[]
+    | null;
   /**
    * Main image for the project grid
    */
@@ -545,6 +560,7 @@ export interface MediaSelect<T extends boolean = true> {
 export interface ProjectsSelect<T extends boolean = true> {
   title?: T;
   category?: T;
+  services?: T;
   featuredImage?: T;
   description?: T;
   gallery?:

@@ -42,7 +42,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       : null
 
   return (
-    <main className="p-8 max-w-5xl mx-auto pt-6">
+    <main className="p-8 max-w-5xl mx-auto">
       <Link href="/" className="inline-block mb-8 no-underline text-black hover:text-gray-600">
         ← Back to Projects
       </Link>
